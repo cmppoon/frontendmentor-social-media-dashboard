@@ -1,112 +1,253 @@
-import Image from "next/image";
+"use client";
 
+import clsx from "clsx";
+import IconUp from "./components/IconUp";
+import IconDown from "./components/IconDown";
+import IconFacebook from "./components/IconFacebook";
+import IconTwitter from "./components/IconTwitter";
+import IconInstragram from "./components/IconInstragram";
+import IconYoutube from "./components/IconYoutube";
+import { Switch } from "@headlessui/react";
+import { useEffect, useState } from "react";
+
+const trends = [
+  {
+    account: "@nathanf",
+    followers: "1987",
+    description: "FOLLOWERS",
+    type: "facebook",
+    today: { total: "12", isUp: true },
+  },
+  {
+    account: "@nathanf",
+    followers: "1044",
+    description: "FOLLOWERS",
+    type: "twitter",
+    today: { total: "99", isUp: true },
+  },
+  {
+    account: "@realnathanf",
+    followers: "11k",
+    description: "FOLLOWERS",
+    type: "instragram",
+    today: { total: "1099", isUp: true },
+  },
+  {
+    account: "Nathan F.",
+    followers: "8239",
+    description: "SUBSCRIBERS",
+    type: "youtube",
+    today: { total: "144", isUp: false },
+  },
+];
+
+const overviews = [
+  {
+    title: "Page Views",
+    amount: "87",
+    change: { amount: "3%", isUp: true },
+    type: "facebook",
+  },
+  {
+    title: "Likes",
+    amount: "52",
+    change: { amount: "2%", isUp: false },
+    type: "facebook",
+  },
+  {
+    title: "Likes",
+    amount: "5462",
+    change: { amount: "2257%", isUp: true },
+    type: "instragram",
+  },
+  {
+    title: "Profile Views",
+    amount: "52k",
+    change: { amount: "1375%", isUp: true },
+    type: "instragram",
+  },
+  {
+    title: "Retweets",
+    amount: "117",
+    change: { amount: "303%", isUp: true },
+    type: "twitter",
+  },
+  {
+    title: "Likes",
+    amount: "507",
+    change: { amount: "553%", isUp: true },
+    type: "twitter",
+  },
+  {
+    title: "Likes",
+    amount: "107",
+    change: { amount: "19%", isUp: false },
+    type: "youtube",
+  },
+  {
+    title: "Total Views",
+    amount: "1407",
+    change: { amount: "12%", isUp: false },
+    type: "youtube",
+  },
+];
 export default function Home() {
+  const [lightMode, setLightMode] = useState(() => {
+    const savedMode = localStorage.getItem("lightMode");
+    return savedMode !== null ? JSON.parse(savedMode) : false;
+  });
+
+  useEffect(() => {
+    if (lightMode) {
+      document.body.classList.remove("dark");
+    } else {
+      document.body.classList.add("dark");
+    }
+    localStorage.setItem("lightMode", JSON.stringify(lightMode));
+  }, [lightMode]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="bg-white px-6 py-12 text-sm dark:bg-dark-very-dark-blue-1">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="text-2xl font-bold text-light-very-dark-blue dark:text-white">
+          Social Media Dashboard
+        </h1>
+        <div className="sm:mb-8 sm:flex sm:items-center sm:justify-between">
+          <h2 className="font-bold text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+            Total Followers: 23,004
+          </h2>
+          <div className="hidden sm:flex sm:items-center sm:justify-end sm:gap-x-4">
+            <p className="font-bold text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+              Dark Mode
+            </p>
+            <Switch
+              checked={lightMode}
+              onChange={setLightMode}
+              className={clsx(
+                lightMode
+                  ? "bg-light-toggle"
+                  : "bg-gradient-to-r from-dark-toggle-from to-dark-toggle-to",
+                "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none",
+              )}
+            >
+              <span className="sr-only">Switch Theme</span>
+              <span
+                aria-hidden="true"
+                className={clsx(
+                  lightMode ? "translate-x-5" : "translate-x-0",
+                  "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out dark:bg-dark-very-dark-blue-1",
+                )}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
+        <div className="mt-8 border-b-[0.5px] border-light-dark-grayish-blue sm:hidden dark:border-dark-desaturated-blue"></div>
+        <div className="mb-8 mt-8 flex justify-between sm:hidden">
+          <p className="font-bold text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+            Dark Mode
           </p>
-        </a>
+          <Switch
+            checked={lightMode}
+            onChange={setLightMode}
+            className={clsx(
+              lightMode
+                ? "bg-light-toggle"
+                : "bg-gradient-to-r from-dark-toggle-from to-dark-toggle-to",
+              "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none",
+            )}
+          >
+            <span className="sr-only">Switch Theme</span>
+            <span
+              aria-hidden="true"
+              className={clsx(
+                lightMode ? "translate-x-5" : "translate-x-0",
+                "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out dark:bg-dark-very-dark-blue-1",
+              )}
+            />
+          </Switch>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
+          {trends.map((trend, idx) => (
+            <div
+              key={idx}
+              className="relative rounded-sm bg-light-light-grayish-blue text-sm dark:bg-dark-dark-desaturated-blue"
+            >
+              <div
+                className={clsx(
+                  "absolute h-1 w-full rounded-t-sm",
+                  trend.type === "facebook" && "bg-facebook",
+                  trend.type === "twitter" && "bg-twitter",
+                  trend.type === "instragram" &&
+                    "bg-gradient-to-r from-instragram-from to-instragram-to",
+                  trend.type === "youtube" && "bg-youtube",
+                )}
+              ></div>
+              <div className="flex flex-col items-center gap-y-6 p-6">
+                <div className="flex gap-x-2 font-bold text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+                  {trend.type === "facebook" && <IconFacebook />}
+                  {trend.type === "twitter" && <IconTwitter />}
+                  {trend.type === "instragram" && <IconInstragram />}
+                  {trend.type === "youtube" && <IconYoutube />}
+                  <span>{trend.account}</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-5xl font-bold text-light-very-dark-blue dark:text-white">
+                    {trend.followers}
+                  </div>
+                  <div className="tracking-[0.2em] text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+                    {trend.description}
+                  </div>
+                </div>
+                <div
+                  className={clsx(
+                    "justtify-center flex items-center gap-x-1 font-bold",
+                    trend.today.isUp ? "text-lime-green" : "text-bright-red",
+                  )}
+                >
+                  {trend.today.isUp ? <IconUp /> : <IconDown />}
+                  <span>{trend.today.total} Today</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <h2 className="my-8 text-2xl font-bold text-light-dark-grayish-blue dark:text-white">
+          Overview - Today
+        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
+          {overviews.map((overview, idx) => (
+            <div
+              key={idx}
+              className="rounded-sm bg-light-light-grayish-blue p-6 dark:bg-dark-dark-desaturated-blue"
+            >
+              <div className="flex items-center justify-between font-bold text-light-dark-grayish-blue dark:text-dark-desaturated-blue">
+                <div>{overview.title}</div>
+                {overview.type == "facebook" && <IconFacebook />}
+                {overview.type == "twitter" && <IconTwitter />}
+                {overview.type == "instragram" && <IconInstragram />}
+                {overview.type == "youtube" && <IconYoutube />}
+              </div>
+              <div className="mt-8 flex items-baseline justify-between">
+                <div className="text-3xl font-bold text-light-very-dark-blue dark:text-white">
+                  {overview.amount}
+                </div>
+                <div className="justtify-center flex items-center gap-x-1 font-bold">
+                  {overview.change.isUp ? <IconUp /> : <IconDown />}
+                  <span
+                    className={clsx(
+                      overview.change.isUp
+                        ? "text-lime-green"
+                        : "text-bright-red",
+                    )}
+                  >
+                    {overview.change.amount}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
