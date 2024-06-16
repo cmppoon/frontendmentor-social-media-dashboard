@@ -17,12 +17,9 @@ const config: Config = {
         "instragram-from": "hsl(37, 97%, 70%)",
         "instragram-to": "hsl(329, 70%, 58%)",
         youtube: "hsl(348, 97%, 39%)",
-
         "dark-toggle-from": "hsl(210, 78%, 56%)",
         "dark-toggle-to": "hsl(146, 68%, 55%)",
-
         "light-toggle": "hsl(230, 22%, 74%)",
-
         "dark-very-dark-blue-1": "hsl(230, 17%, 14%)",
         "dark-very-dark-blue-2": "hsl(232, 19%, 15%)",
         "dark-dark-desaturated-blue": "hsl(228, 28%, 20%)",

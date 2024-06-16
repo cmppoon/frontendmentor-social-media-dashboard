@@ -92,23 +92,35 @@ const overviews = [
   },
 ];
 export default function Home() {
-  const [lightMode, setLightMode] = useState(() => {
-    const savedMode = localStorage.getItem("lightMode");
-    return savedMode !== null ? JSON.parse(savedMode) : false;
-  });
+  const [lightMode, setLightMode] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (lightMode) {
-      document.body.classList.remove("dark");
-    } else {
-      document.body.classList.add("dark");
+    if (typeof window !== "undefined") {
+      const savedMode = localStorage.getItem("lightMode");
+      if (savedMode) {
+        console.log("Setting light mode to " + JSON.parse(savedMode));
+        setLightMode(JSON.parse(savedMode));
+      }
+      setIsMounted(true);
     }
-    localStorage.setItem("lightMode", JSON.stringify(lightMode));
-  }, [lightMode]);
+  }, []);
+
+  useEffect(() => {
+    // if (isMounted) {
+      if (lightMode) {
+        document.body.classList.remove("dark");
+      } else {
+        document.body.classList.add("dark");
+      }
+      console.log("lightMode " + lightMode);
+      localStorage.setItem("lightMode", JSON.stringify(lightMode));
+    // }
+  }, [lightMode, isMounted]);
 
   return (
-    <main className="bg-white px-6 py-12 text-sm dark:bg-dark-very-dark-blue-1">
-      <div className="mx-auto max-w-6xl">
+    <main className="relative z-0 bg-white text-sm dark:bg-dark-very-dark-blue-1">
+      <div className="mx-auto max-w-6xl px-6 py-12">
         <h1 className="text-2xl font-bold text-light-very-dark-blue dark:text-white">
           Social Media Dashboard
         </h1>
@@ -249,6 +261,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <div className="absolute inset-0 -z-10 h-[14.5rem] w-full rounded-3xl bg-light-very-pale-blue dark:bg-dark-very-dark-blue-2"></div>
     </main>
   );
 }
